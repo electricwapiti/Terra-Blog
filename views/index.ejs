@@ -1,8 +1,8 @@
 <!-- EJS file for the landing page -->
 <%- include('partials/header.ejs') %>
 
-    <title>Terra</title>
-    <h2 class="subtitle">Blog</h2>
+    <h1 class="text-center">Terra</h1>
+    <h2 class="subtitle text-center">A user-generated blog</h2>
     <div class="container-fluid bg-light py-4"> <!-- Check docs and try deleting one of these tags each time -->
         <div class="row text-center">
             <div class="col-md-6 border-right"> <!-- Check docs and try deleting one of these tags each time -->
@@ -11,10 +11,10 @@
                     <%- include('partials/button', {
                         style: 'btn-primary',
                         iconType: 'fa',
-                        icon: 'fas fa-eye mr-2',
+                        icon: 'fas fa-eye',
                         text: 'View',
                         extraClasses: 'd-flex align-items-center',
-                        type: 'button'
+                        href: '/blog'
                     }) %>
                 </div>
             </div>
@@ -29,7 +29,8 @@
                         icon: 'log-in-outline',
                         text: 'Login',
                         type: 'button',
-                        extraClasses: 'w-100'
+                        extraClasses: 'w-100',
+                        href:'/login'
                     }) %>
                     </div>
                     <div style="position: absolute; left: 66%; transform: translateX(-50%); width: 120px;">
@@ -39,7 +40,8 @@
                         icon: 'add-circle-outline',
                         text: 'Sign up',
                         type: 'button',
-                        extraClasses: 'w-100'
+                        extraClasses: 'w-100',
+                        href: '/signup'
                     }) %>
                     </div>
                 </div>

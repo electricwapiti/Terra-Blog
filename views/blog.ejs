@@ -1,9 +1,14 @@
 <%- include('partials/header.ejs') %>
 
     <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-success">
-            <ion-icon name="add-circle-outline"></ion-icon> Sign up
-        </button>
+        <%- include('partials/button', {
+            style: 'btn-success',
+            iconType: 'ion',
+            icon: 'create-outline',
+            text: 'Create Blog',
+            type: 'button',
+            href: '/write'
+        }) %>
     </div>
 
     <div id="blog-container" class="row mt-4">

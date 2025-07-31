@@ -1,9 +1,24 @@
 <!-- Button template -->
 <% const safeExtraClasses = typeof extraClasses !== 'undefined' ? extraClasses :
-''; %>
+''; const safeStyle = style || 'btn-primary'; %> <% if (typeof href !==
+'undefined') { %>
+<!-- Render as a link if href is provided -->
+<a
+  href="<%= href %>"
+  class="btn <%= safeStyle %> rounded-pill d-flex align-items-center <%= safeExtraClasses %>"
+  role="button"
+>
+  <% if (iconType === 'ion') { %>
+  <ion-icon name="<%= icon %>" class="me-2"></ion-icon>
+  <% } else if (iconType === 'fa') { %>
+  <i class="<%= icon %> me-2"></i>
+  <% } %> <%= text %>
+</a>
+<% } else { %>
+<!-- Render as a button if no href -->
 <button
-  class="btn <%= style || 'btn-primary' %> rounded-pill d-flex align-items-center <%= safeExtraClasses %>"
   type="<%= type || 'button' %>"
+  class="btn <%= safeStyle %> rounded-pill d-flex align-items-center <%= safeExtraClasses %>"
 >
   <% if (iconType === 'ion') { %>
   <ion-icon name="<%= icon %>" class="me-2"></ion-icon>
@@ -11,3 +26,4 @@
   <i class="<%= icon %> me-2"></i>
   <% } %> <%= text %>
 </button>
+<% } %>
