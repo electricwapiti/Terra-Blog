@@ -25,7 +25,34 @@ main {
   flex-grow: 1;
 }
 
+/*                  Buttons                    */
+.terra-button {
+  background-color: var(--terra-accent);
+  color: var(--terra-bg);
+  padding: 0.6em 1.4em;
+  border: none;
+  border-radius: 999px; /* pill shape */
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(90, 67, 36, 0.2);
+}
 
+/* For the signup button in the landing page. It was on two lines. */
+.custom-width-btn {
+  width: 8em !important;
+}
+
+.terra-button:hover {
+  background-color: var(--terra-primary);
+  color: var(--terra-bg);
+  transform: translateY(-2px);
+}
 
 /* Use this for the tabs for the web app */
 i {

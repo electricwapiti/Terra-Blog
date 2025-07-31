@@ -1,13 +1,8 @@
-<!-- Button template -->
+<!-- Terra Button Template -->
 <% const safeExtraClasses = typeof extraClasses !== 'undefined' ? extraClasses :
-''; const safeStyle = style || 'btn-primary'; %> <% if (typeof href !==
-'undefined') { %>
-<!-- Render as a link if href is provided -->
-<a
-  href="<%= href %>"
-  class="btn <%= safeStyle %> rounded-pill d-flex align-items-center <%= safeExtraClasses %>"
-  role="button"
->
+''; %> <% const buttonClass = 'terra-button ' + safeExtraClasses; %> <% if
+(typeof href !== 'undefined') { %>
+<a href="<%= href %>" class="<%= buttonClass %>" role="button">
   <% if (iconType === 'ion') { %>
   <ion-icon name="<%= icon %>" class="me-2"></ion-icon>
   <% } else if (iconType === 'fa') { %>
@@ -15,11 +10,7 @@
   <% } %> <%= text %>
 </a>
 <% } else { %>
-<!-- Render as a button if no href -->
-<button
-  type="<%= type || 'button' %>"
-  class="btn <%= safeStyle %> rounded-pill d-flex align-items-center <%= safeExtraClasses %>"
->
+<button type="<%= type || 'button' %>" class="<%= buttonClass %>">
   <% if (iconType === 'ion') { %>
   <ion-icon name="<%= icon %>" class="me-2"></ion-icon>
   <% } else if (iconType === 'fa') { %>
