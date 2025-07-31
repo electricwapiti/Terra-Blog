@@ -3,6 +3,7 @@
 }
 
 
+
 main {
   text-align: center;
   padding: 5vmin;
@@ -11,6 +12,12 @@ main {
 
 h1 {
   text-align: center;
+}
+
+textarea {
+  height: 150px;
+  line-height: 150%;
+  resize: vertical;
 }
 
 .subtitle {
