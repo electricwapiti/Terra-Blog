@@ -1,0 +1,10 @@
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}

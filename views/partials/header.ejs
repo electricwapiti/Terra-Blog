@@ -7,9 +7,39 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
           <link rel="stylesheet" href="/styles/layout.css">
           <link rel="stylesheet" href="/styles/content.css">
-    <title>Document</title>
+    <title>Header</title>
 </head>
-<body>
-    
-</body>
-</html>
+<header>
+    <nav class="navbar navbar-expand-custom navbar-mainbg"> <!-- see how this looks if you delete one thing at a time -->
+        <a class="navbar-brand navbar-logo" href="#">
+            <img src="/images/Earth.png" alt="Terra Logo" style="height:40px; width:40px; margin-right:10px; border-radius:100%;">
+            Terra
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div class="hori-selector"> <!-- Consider removing this if its the three lines stacked thing-->
+                    <div class="left"></div>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="far fa-copy"></i>Landing</a> <!-- Test this with 1. All the same class name, the same as this one. 2. All with class far. 3. All with no class. -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="far fa-clone"></i>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup"><i class="far fa-calendar-alt"></i>Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog"><i class="far fa-copy"></i>Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/write"><i class="far fa-copy"></i>Write</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/view"><i class="far fa-copy"></i>View</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main class="container">
