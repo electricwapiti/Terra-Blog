@@ -8,21 +8,40 @@
             <div class="col-md-6 border-right"> <!-- Check docs and try deleting one of these tags each time -->
                 <h4>Read</h4> <!-- try with lower numbers -->
                 <div class="d-flex justify-content-center mt-2"> <!-- try deleting one of these tags each time -->
-                    <button class="btn btn-outline-primary d-flex align-items-center">
-                        <i class="fas fa-eye mr-2"></i> <!-- try deleting one of these tags each time -->
-                    </button>
+                    <%- include('partials/button', {
+                        style: 'btn-primary',
+                        iconType: 'fa',
+                        icon: 'fas fa-eye mr-2',
+                        text: 'View',
+                        extraClasses: 'd-flex align-items-center',
+                        type: 'button'
+                    }) %>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <h4>Join and Post</h4>
-                <div class="d-flex justify-content-evenly mt-2">
-                    <button class="btn btn-primary"> <!-- try this as both of them and see how that changes the look. -->
-                        <ion-icon name="log-in-outline"></ion-icon> Login
-                    </button>
-                    <button class="btn btn-success">
-                        <ion-icon name="add-circle-outline"></ion-icon> Sign up
-                    </button>
+                <div class="position-relative mt-2" style="height: 40px;"> <!-- set height to fit buttons -->
+                    <div style="position: absolute; left: 33%; transform: translateX(-50%); width: 120px;">
+                    <%- include('partials/button', {
+                        style: 'btn-primary',
+                        iconType: 'ion',
+                        icon: 'log-in-outline',
+                        text: 'Login',
+                        type: 'button',
+                        extraClasses: 'w-100'
+                    }) %>
+                    </div>
+                    <div style="position: absolute; left: 66%; transform: translateX(-50%); width: 120px;">
+                    <%- include('partials/button', {
+                        style: 'btn-success',
+                        iconType: 'ion',
+                        icon: 'add-circle-outline',
+                        text: 'Sign up',
+                        type: 'button',
+                        extraClasses: 'w-100'
+                    }) %>
+                    </div>
                 </div>
             </div>
         </div>
