@@ -2,7 +2,46 @@
     font-family: 'Inter', sans-serif;
 }
 
+/* Colors */
+:root {
+  --terra-primary: #5A4324;
+  --terra-secondary: #D8CAB8;
+  --terra-accent: #B4533C;
+  --terra-bg: #F6F4EF;
+  --terra-contrast: #2C2A1F;
+  --terra-tertiary: #7A8373;
+}
 
+header {
+  background-color: var(--terra-primary);
+  color: var(--terra-bg);
+}
+
+header a {
+  color: var(--terra-secondary);
+}
+
+header a:hover {
+  color: var(--terra-accent);
+}
+
+footer {
+  background-color: var(--terra-secondary);
+  color: var(--terra-primary);
+}
+
+footer a {
+  color: var(--terra-primary);
+}
+
+footer a:hover {
+  color: var(--terra-accent);
+}
+
+header a:hover,
+footer a:hover {
+  color: var(--terra-accent);
+}
 
 main {
   text-align: center;
@@ -22,7 +61,7 @@ textarea {
 
 .subtitle {
   font-size: 1.25rem;
-  color: #555;
+  color: var(--terra-secondary);
   font-weight: 400;
   margin-top: 0.5rem;
 }
