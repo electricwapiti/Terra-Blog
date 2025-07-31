@@ -1,0 +1,1 @@
+// Handles Supabase auth Logic
