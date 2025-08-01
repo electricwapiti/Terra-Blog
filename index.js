@@ -110,10 +110,6 @@ app.get("/edit", (req, res) => {
   res.render("edit.ejs");
 });
 
-console.log("Admin client test:");
-console.log("  URL:", process.env.SUPABASE_URL);
-console.log("  Role Key length:", process.env.SUPABASE_SERVICE_ROLE_KEY?.length);
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
