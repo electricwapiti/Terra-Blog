@@ -2,7 +2,6 @@ import express from "express";
 import multer from "multer";
 import session from "express-session";
 import supabase from "./utils/supabaseClient.js";
-import supabaseAdmin from "./utils/supabaseAdminClient.js";
 import fs from "fs";
 
 const app = express();
@@ -20,11 +19,6 @@ app.use(
 // post signup route to sign up w/ supabase auth, upload profile image to supabase storage,
 // store username & profile image URL in profiles table with this POST /signup route:
 app.post("/signup", upload.single("profileImage"), async (req, res) => {
-
-  console.log("🧾 req.body:", req.body);
-  console.log("🖼️ req.file:", req.file);
-  console.log("📡 POST /signup hit");
-  console.log("Form data at start:", req.body);
   const { email, password, username } = req.body;
   const profileImage = req.file;
   if (!email || !password || !username || !profileImage) {
@@ -33,14 +27,13 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
 
   try {
     // Sign up user in Supabase Auth
-    
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
       {
         email,
         password,
       }
     );
-    
+
     if (signUpError) throw signUpError;
     const userId = signUpData.user.id;
 
@@ -48,7 +41,7 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
     const fileExt = profileImage.originalname.split(".").pop();
     const filePath = `public/${userId}.${fileExt}`;
     const fileBuffer = fs.readFileSync(profileImage.path);
-    console.log('got to line 51. No problems yet. If last one, problem in profile image upload');
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("profile-image")
       .upload(filePath, fileBuffer, {
@@ -59,15 +52,14 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
       console.error("upload error: ", uploadError);
       throw uploadError;
     } uploadError;
-    console.log("got to line 59. No problem in profile image upload line.");
+
     // Get public image URL
     const {
       data: { publicUrl },
     } = supabase.storage.from("profile-image").getPublicUrl(filePath);
 
     // Insert profile into `profiles` table
-    console.log("got to line 65, Using admin client to insert profile");
-    const { error: profileInsertError } = await supabaseAdmin
+    const { error: profileInsertError } = await supabase
       .from("profiles")
       .insert({
         id: userId,
