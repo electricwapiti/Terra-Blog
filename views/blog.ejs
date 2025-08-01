@@ -1,15 +1,18 @@
 <%- include('partials/header.ejs') %>
 
-    <div class="d-flex justify-content-center mt-3">
-        <%- include('partials/button', {
-            style: 'btn-success',
-            iconType: 'ion',
-            icon: 'create-outline',
-            text: 'Create Blog',
-            type: 'button',
-            href: '/write'
-        }) %>
-    </div>
+    <% if(userIsSignedIn) { %>
+        <div class="d-flex justify-content-center mt-3">
+            <%- include('partials/button', {
+                style: 'btn-success',
+                iconType: 'ion',
+                icon: 'create-outline',
+                text: 'Create Blog',
+                type: 'button',
+                href: '/write'
+            }) %>
+        </div>
+    <% } %>
+    
 
     <div id="blog-container" class="row mt-4">
     <!-- TODO: Fetch blogs with JavaScript using Supabase client -->
