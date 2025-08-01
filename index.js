@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import session from "express-session";
 import supabase from "./utils/supabaseClient.js";
+import supabaseAdmin from "./utils/supabaseAdminClient.js";
 import fs from "fs";
 
 const app = express();
@@ -32,14 +33,14 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
 
   try {
     // Sign up user in Supabase Auth
-    console.log("📥 Form data received:", req.body);
+    
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
       {
         email,
         password,
       }
     );
-
+    
     if (signUpError) throw signUpError;
     const userId = signUpData.user.id;
 
@@ -47,21 +48,26 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
     const fileExt = profileImage.originalname.split(".").pop();
     const filePath = `public/${userId}.${fileExt}`;
     const fileBuffer = fs.readFileSync(profileImage.path);
+    console.log('got to line 51. No problems yet. If last one, problem in profile image upload');
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("profile-image")
       .upload(filePath, fileBuffer, {
         contentType: profileImage.mimetype,
       });
-
-    if (uploadError) throw uploadError;
-
+    
+    if (uploadError) {
+      console.error("upload error: ", uploadError);
+      throw uploadError;
+    } uploadError;
+    console.log("got to line 59. No problem in profile image upload line.");
     // Get public image URL
     const {
       data: { publicUrl },
     } = supabase.storage.from("profile-image").getPublicUrl(filePath);
 
     // Insert profile into `profiles` table
-    const { error: profileInsertError } = await supabase
+    console.log("got to line 65, Using admin client to insert profile");
+    const { error: profileInsertError } = await supabaseAdmin
       .from("profiles")
       .insert({
         id: userId,
@@ -111,6 +117,10 @@ app.get("/view", (req, res) => {
 app.get("/edit", (req, res) => {
   res.render("edit.ejs");
 });
+
+console.log("Admin client test:");
+console.log("  URL:", process.env.SUPABASE_URL);
+console.log("  Role Key length:", process.env.SUPABASE_SERVICE_ROLE_KEY?.length);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
