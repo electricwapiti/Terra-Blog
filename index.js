@@ -16,7 +16,7 @@ app.use(
   session({ secret: "terra-secret", resave: false, saveUninitialized: true })
 );
 
-// post signup route to sign up w/ supabase auth, upload profile image to supabase storage,
+// Signup route to sign up w/ supabase auth, upload profile image to supabase storage,
 // store username & profile image URL in profiles table with this POST /signup route:
 app.post("/signup", upload.single("profileImage"), async (req, res) => {
   const { email, password, username } = req.body;
@@ -80,6 +80,33 @@ app.post("/signup", upload.single("profileImage"), async (req, res) => {
   } catch (err) {
     console.error("Signup failed", err.message || err);
     res.status(500).send("Signup failed. please try again.");
+  }
+});
+
+// Log in route with supabase auth
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error || !data.session) {
+      console.log('Login error:', error?.message || 'No session returned');
+      return res.status(401).send('Invalid email or password');
+    }
+
+    // Save user id and access token in session
+    req.session.user = {
+      id: data.user.id,
+      accessToken: data.session.access_token
+    };
+
+    res.redirect('/blog');
+  } catch (err) {
+    console.error('Login failed:', err.message || err);
+    res.status(500).send('Login failed, please try again');
   }
 });
 

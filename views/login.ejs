@@ -4,7 +4,7 @@
     <h1>Log In</h1>
     <div class="d-flex justify-content-center">
     <div class="w-50 px-4" style="max-width: 12cm; min-width: 12cm"> <!-- TODO: Put this styling in content.css -->
-        <form>
+        <form action="/login" method="POST">
         <div class="form-group mb-3">
             <div class="form-group mb-3">
             <label for="email">Email</label>
@@ -12,6 +12,7 @@
                 type="email"
                 class="form-control"
                 id="email"
+                name="email"
                 placeholder="Enter email"
                 required
             />
@@ -23,6 +24,7 @@
                     type="password"
                     class="form-control"
                     id="password"
+                    name="password"
                     placeholder="Enter password"
                     required
                 >
