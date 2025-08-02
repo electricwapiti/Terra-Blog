@@ -4,14 +4,16 @@
     <div class="container py-5">
     <h2 class="mb-4">Create New Blog</h2>
     <div class="row">
-        <form action="/write" method="POST"></form>
+        <form action="/write" method="POST" enctype="multipart/form-data">
             <div class="col-md-6 mb-4">
                 <h4 class="text-center mb-3">Upload image</h4>
                     <div class="d-flex justify-content-center">
                         <input
                         type="file"
+                        name="blogImage"
                         class="form-control-file"
                         accept="image/png, image/jpeg, image/webp, image/gif"
+                        required
                         />
                     </div>
                 </h4>
@@ -22,7 +24,6 @@
                     type="text" 
                     name="title" 
                     class="form-control form-control-lg" 
-                    value="<%= /* TODO: Get blog's title */ %>" 
                     placeholder="Enter blog title" 
                     required 
                 />
@@ -32,8 +33,7 @@
                     class="form-control"
                     rows="12"
                     style="width: 100%;"
-                    placeholder="Edit your blog content here..."
-                    ><%= /* TODO: Get blog contents */ %>
+                    placeholder="Edit your blog content here...">
                 </textarea>
             </div>
 
@@ -44,7 +44,7 @@
                     icon: 'send-outline',
                     text: 'Post blog!',
                     extraClasses: 'd-flex align-items-center align-self-start',
-                    href: '/blog'
+                    type: 'submit'
                 }) %>
             </div>
         </form>

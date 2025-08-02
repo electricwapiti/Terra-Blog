@@ -110,6 +110,58 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Write route to post blog
+app.post('/write', upload.single('blogImage'), async (req, res) => {
+  const { title, content } = req.body;
+  console.log("Blog title:", title);
+  console.log("Blog content:", JSON.stringify(content));
+  const blogImage = req.file;
+  const user = req.session.user;
+
+  // Just in case, check if user isn't authenticated. They shouldn't even get to this page.
+  if (!user || !user.id) {
+    return res.status(401).send('You must be logged in to post a blog.');
+  }
+
+  try {
+    // Upload image to Supabase Storage
+    const fileExt = blogImage.originalname.split('.').pop();
+    const filePath = `public/${user.id}-${Date.now()}.${fileExt}`;
+    const fileBuffer = fs.readFileSync(blogImage.path);
+
+    const { error: uploadError } = await supabase.storage.from('blog-image').upload(filePath, fileBuffer, {
+      contentType: blogImage.mimetype
+    });
+
+    if(uploadError) throw uploadError;
+
+    // Get public URL for the blog image
+    const { data: { publicUrl } } = supabase.storage.from('blog-image').getPublicUrl(filePath);
+
+    // Insert blog into Supabase
+    const { error: insertError } = await supabase.from('blogs').insert({
+      author_id: user.id,
+      title,
+      content,
+      image_url: publicUrl,
+      created_at: new Date().toISOString()
+    });
+
+    if (insertError) throw insertError;
+
+    // Cleanup local file
+    fs.unlink(blogImage.path, (err) => {
+      if (err) console.warn('Failed to delete local file:', err);
+    });
+
+    // Redirect to blog list or success page
+    res.redirect('/blog');
+  } catch (err) {
+    console.error('Blog post failed:', err.message || err);
+    res.status(500).send(`Failed to post blog: ${err.message}`);
+  }
+});
+
 // Set all the links to the correct files
 app.get("/", (req, res) => {
   res.render("index.ejs");
