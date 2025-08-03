@@ -162,6 +162,30 @@ app.post('/write', upload.single('blogImage'), async (req, res) => {
   }
 });
 
+// Gather info about blogs from profiles and blogs tables, assemble the blogs with 
+// the blog-cards.ejs template, and display by order they were published
+// There's a foreign key relationship, so the blogs entry can embed the 
+// profiles entry in the space where the author id was in the blogs entry.
+app.get('/blog', async (req, res) => {
+  try {
+    const { data: blogs, error } = await supabase.from('blogs')
+    .select(`id, title, content, image_url, created_at, profiles 
+      ( id, username, profile_image_url )
+    `).order('created_at', { ascending: false });
+    if (error) throw error;
+    const userId = req.session?.user?.id || null;
+
+    res.render('blog.ejs', {
+      blogs,
+      currentUser: userId,
+      userIsSignedIn: !!userId
+    });
+  } catch (err) {
+    console.error('Error loading blogs:', err.message);
+    res.status(500).send('Couldnt load blogs');
+  }
+});
+
 // Set all the links to the correct files
 app.get("/", (req, res) => {
   res.render("index.ejs");
@@ -174,11 +198,7 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
-app.get("/blog", (req, res) => {
-  res.render("blog.ejs", {
-    userIsSignedIn: !!req.session.user,
-  });
-});
+
 app.get("/write", (req, res) => {
   res.render("write.ejs");
 });

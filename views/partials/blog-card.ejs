@@ -1,46 +1,47 @@
 <!-- TODO: standardize the styling & ensure the image & text are inline -->
 
 <div class="card mb-3 shadow-sm" style="max-height: 200px">
-  <!-- test remove -->
   <div class="row no-gutters h-100">
-    <!-- test remove -->
     <div class="col-md-4">
-      <img
-        src="<%= /*TODO: Get blog's image URL*/ %>"
-        class="card-img"
-        alt="Blog image"
-        style="object-fit: cover;"
-      />
-      <!-- Change this to 50% -->
+      <a href="/view/<%= blog.id %>">
+        <img
+          src="<%= blog.image_url %>"
+          class="card-img"
+          alt="Blog image"
+          style="object-fit: cover;"
+        />
+      </a>
     </div>
-
+    
     <div class="col-md-8 d-flex flex-column justify-content-between">
-      <div class="card-body">
-        <h5 class="card-title"><%= /* TODO: Get blog's title */ %></h5>
-      </div>
-
+      <a href="/view/<%= blog.id %>">
+        <div class="card-body">
+          <h5 class="card-title"><%= blog.title %></h5>
+        </div>
+      </a>
+    
       <div class="d-flex justify-content-between align-items-center px-3 pb-3">
         <!-- test remove, standardize with content.ejs -->
         <div class="d-flex align-items-center">
           <img
-            src=" <%= /*TODO: Get blog's author's profile image URL*/ %>"
+            src=" <%= blog.profiles.profile_image_url %>"
             class="rounded-circle mr-2"
             style="width: 35px; height: 35px; object-fit: cover"
           />
           <!-- standardize this! -->
           <div>
-            <strong> <%= /* TODO: Get blog's author's username */ %> </strong
+            <strong> <%= blog.profiles.username %> </strong
             ><br />
-            <p><%= /* TODO: Get blog's date written */ %></p>
+            <p><%= new Date(blog.created_at).toLocaleDateString() %></p>
           </div>
         </div>
 
-        <% /* TODO: Check if the user's id is the same as the blog's author's id
-        */ %> <% /* if () { */ %>
-        <!-- <a href="the href that I come up with for the blog edit screen" <% /* TODO: Get the blog's id (e.g. short title) */ %> -->
-        <!-- <i class="fas fa-pen"></i> -->
-        <!-- </a> -->
-        <% /* } */ %>
+        <!-- Display edit -->
+        <% if (currentUser && blog.profiles.id === currentUser) { %> 
+          <a href="/edit/<%= blog.id %>">
+            <i class = "fas fa-pen"></i>
+          </a>
+        <% } %>
       </div>
     </div>
   </div>
