@@ -2,21 +2,21 @@
 <%- include('partials/header.ejs') %>
 
     <div class="container my-5">
-        <h1 id="blog-title">Loading...</h1>
+        <h1 id="blog-title"><%= blog.title %></h1>
 
         <div class="d-flex justify-content-center align-items-center my-3">
-            <img id="author-profile-image" src="" alt="Author" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
-            <span id="author-username" class="font-weight-bold">Loading...</span>
+            <img id="author-profile-image" src="<%= blog.profiles.profile_image_url %>" alt="Author" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+            <span id="author-username" class="font-weight-bold"><%= blog.profiles.username %></span>
         </div>
 
         <div class="row my-4">
             <!-- Blog Image (Left 50%) -->
             <div class="col-md-6 mb-3 mb-md-0 d-flex justify-content-center">
-                <img id="blog-image" src="" alt="Blog Visual" class="img-fluid rounded">
+                <img id="blog-image" src="<%= blog.image_url %>" alt="Blog Visual" class="img-fluid rounded">
             </div>
             <!-- Blog Text (Right 50%) -->
             <div class="col-md-6">
-                <p id="blog-content">Loading...</p>
+                <p id="blog-content"><%- blog.content.replace(/\r\n/g, '<br>') %></p>
             </div>
         </div>
         <div class="text-center">

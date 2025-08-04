@@ -115,6 +115,7 @@ app.post('/write', upload.single('blogImage'), async (req, res) => {
   const { title, content } = req.body;
   console.log("Blog title:", title);
   console.log("Blog content:", JSON.stringify(content));
+  console.log("Uploading to bucket:", supabase.storage.from('blog-image'));
   const blogImage = req.file;
   const user = req.session.user;
 
@@ -128,12 +129,13 @@ app.post('/write', upload.single('blogImage'), async (req, res) => {
     const fileExt = blogImage.originalname.split('.').pop();
     const filePath = `public/${user.id}-${Date.now()}.${fileExt}`;
     const fileBuffer = fs.readFileSync(blogImage.path);
-
+    console.log('the image url starts out as :' + filePath);
     const { error: uploadError } = await supabase.storage.from('blog-image').upload(filePath, fileBuffer, {
       contentType: blogImage.mimetype
     });
-
+    
     if(uploadError) throw uploadError;
+    
 
     // Get public URL for the blog image
     const { data: { publicUrl } } = supabase.storage.from('blog-image').getPublicUrl(filePath);
@@ -175,6 +177,12 @@ app.get('/blog', async (req, res) => {
     if (error) throw error;
     const userId = req.session?.user?.id || null;
 
+    console.log("---------------------------------")
+    blogs.forEach(blog => {
+      console.log(`Blog ID: ${blog.id} | Image URL: ${blog.image_url}`);
+    });
+    console.log("---------------------------------")
+
     res.render('blog.ejs', {
       blogs,
       currentUser: userId,
@@ -202,8 +210,25 @@ app.get("/login", (req, res) => {
 app.get("/write", (req, res) => {
   res.render("write.ejs");
 });
-app.get("/view", (req, res) => {
-  res.render("view.ejs");
+app.get("/view/:id", async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    const { data: blog, error } = await supabase.from('blogs').select(
+      `id, title, content, image_url, created_at, profiles ( id, username, profile_image_url )`).eq('id', blogId).single();
+    if (error || !blog) throw error;
+
+    const userId = req.session?.user?.id || null;
+    console.log('Loaded blog:', blog);
+    
+    res.render('view.ejs', {
+      blog,
+      currentUser: userId,
+      userIsSignedIn: !!userId,
+    });
+  } catch (err) {
+    console.error('failed to load blog post:', err.message);
+    res.status(500).send('could not load blog post.');
+  }
 });
 app.get("/edit", (req, res) => {
   res.render("edit.ejs");
